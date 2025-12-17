@@ -17,7 +17,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function AppContent() {
   const { theme, colors } = useTheme();
-  
+
   return (
     <NavigationContainer>
       <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
@@ -30,7 +30,7 @@ function AppContent() {
         <Stack.Screen name="TaskList" component={TaskListScreen} />
         <Stack.Screen
           name="TaskDetail"
-          component={({ route, navigation }) => {
+          component={({ route, navigation }: any) => {
             const { task: initialTask } = route.params;
             const [task, setTask] = React.useState(initialTask);
 

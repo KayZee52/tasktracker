@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TextInput,
   Alert,
+  Modal,
 } from 'react-native';
 import { Task, ChecklistItem, Priority, TaskTemplate } from '../types/Task';
 import { useTheme } from '../contexts/ThemeContext';
@@ -201,7 +202,7 @@ export const TaskDetailScreen: React.FC<TaskDetailScreenProps> = ({
           <Text style={[styles.backButtonText, dynamicStyles.backButtonText]}>← Back</Text>
         </TouchableOpacity>
         <View style={styles.headerActions}>
-          <TouchableOpacity 
+          <TouchableOpacity
             onPress={handleSaveAsTemplate}
             style={styles.editButton}
           >
@@ -258,28 +259,28 @@ export const TaskDetailScreen: React.FC<TaskDetailScreenProps> = ({
                     .split('\n')
                     .map(line => line.trim())
                     .filter(line => line.length > 0);
-                  
+
                   if (lines.length === 0) {
                     Alert.alert('No Content', 'Please add some text to convert to checklist items.');
                     return;
                   }
-                  
+
                   const newChecklistItems: ChecklistItem[] = lines.map((line, index) => ({
                     id: `${Date.now()}-${index}`,
                     text: line,
                     completed: false,
                   }));
-                  
+
                   const updatedChecklist = [...checklist, ...newChecklistItems];
                   setDescription('');
                   setChecklist(updatedChecklist);
-                  
+
                   onUpdate({
                     ...task,
                     description: '',
                     checklist: updatedChecklist,
                   });
-                  
+
                   Alert.alert('Success', `Created ${lines.length} checklist item(s) from description.`);
                 }}
               >
@@ -320,7 +321,7 @@ export const TaskDetailScreen: React.FC<TaskDetailScreenProps> = ({
           <Text style={[styles.sectionTitle, dynamicStyles.sectionTitle]}>
             Checklist ({checklist.filter(item => item.completed).length}/{checklist.length})
           </Text>
-          
+
           {/* Add new checklist item input */}
           <View style={styles.addChecklistContainer}>
             <TextInput
@@ -345,7 +346,7 @@ export const TaskDetailScreen: React.FC<TaskDetailScreenProps> = ({
             />
             <TouchableOpacity
               style={[
-                styles.addChecklistButton, 
+                styles.addChecklistButton,
                 dynamicStyles.addChecklistButton,
                 !newChecklistItem.trim() && styles.addChecklistButtonDisabled
               ]}
@@ -367,7 +368,7 @@ export const TaskDetailScreen: React.FC<TaskDetailScreenProps> = ({
               <Text style={[styles.addChecklistButtonText, dynamicStyles.addChecklistButtonText]}>+</Text>
             </TouchableOpacity>
           </View>
-          
+
           {/* Existing checklist items - sorted: incomplete first, completed at bottom */}
           {[...checklist].sort((a, b) => {
             // Completed items go to the bottom
@@ -379,10 +380,10 @@ export const TaskDetailScreen: React.FC<TaskDetailScreenProps> = ({
           }).map((item) => {
             const indentLevel = item.indentLevel || 0;
             return (
-              <View 
-                key={item.id} 
+              <View
+                key={item.id}
                 style={[
-                  styles.checklistItem, 
+                  styles.checklistItem,
                   dynamicStyles.checklistItem,
                   { paddingLeft: 12 + (indentLevel * 20) }
                 ]}
