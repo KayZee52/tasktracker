@@ -90,5 +90,4 @@ npm start
 
 ## License
 
-MIT
-
+Copyright (c) 2025 SouMed Technologies. All rights reserved.
